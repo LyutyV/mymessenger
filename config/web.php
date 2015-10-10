@@ -8,13 +8,23 @@ $params = ArrayHelper::merge(
 
 $config = [
     'id' => 'app',
+    'modules' => [
+        'main' => [
+            'class' => 'app\modules\main\Module',
+        ],
+        'user' => [
+            'class' => 'app\modules\user\Module',
+        ],
+    ],
+    'defaultRoute' => 'main/default/index',
     'components' => [
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\modules\user\models\User',
             'enableAutoLogin' => true,
+            'loginUrl' => ['user/default/login'],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'main/default/error',
         ],
         'request' => [
             'cookieValidationKey' => '',
