@@ -1,11 +1,11 @@
 <?php
-
+ 
 namespace app\modules\user\models;
-
+ 
 use app\modules\user\models\User;
 use Yii;
 use yii\base\Model;
-
+ 
 /**
  * LoginForm is the model behind the login form.
  */
@@ -14,43 +14,40 @@ class LoginForm extends Model
     public $username;
     public $password;
     public $rememberMe = true;
-
+ 
     private $_user = false;
-
-
+ 
     /**
      * @return array the validation rules.
      */
     public function rules()
     {
         return [
-            // username and password are both required
             [['username', 'password'], 'required'],
-            // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
-            // password is validated by validatePassword()
             ['password', 'validatePassword'],
         ];
     }
-
+ 
     /**
-     * Validates the password.
+     * Validates the username and password.
      * This method serves as the inline validation for password.
-     *
-     * @param string $attribute the attribute currently being validated
-     * @param array $params the additional name-value pairs given in the rule
      */
-    public function validatePassword($attribute, $params)
+    public function validatePassword()
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
-
+ 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError('password', 'Неверное имя пользователя или пароль.');
+            } elseif ($user && $user->status == User::STATUS_BLOCKED) {
+                $this->addError('username', 'Ваш аккаунт заблокирован.');
+            } elseif ($user && $user->status == User::STATUS_WAIT) {
+                $this->addError('username', 'Ваш аккаунт не подтвежден.');
             }
         }
     }
-
+ 
     /**
      * Logs in a user using the provided username and password.
      * @return boolean whether the user is logged in successfully
@@ -59,10 +56,11 @@ class LoginForm extends Model
     {
         if ($this->validate()) {
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+        } else {
+            return false;
         }
-        return false;
     }
-
+ 
     /**
      * Finds user by [[username]]
      *
@@ -73,7 +71,7 @@ class LoginForm extends Model
         if ($this->_user === false) {
             $this->_user = User::findByUsername($this->username);
         }
-
+ 
         return $this->_user;
     }
 }
