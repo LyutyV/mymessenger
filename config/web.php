@@ -15,6 +15,9 @@ $config = [
         'user' => [
             'class' => 'app\modules\user\Module',
         ],
+        'chat' => [
+            'class' => 'app\modules\chat\Module',
+        ],
     ],
     'defaultRoute' => 'main/default/index',
     'components' => [
