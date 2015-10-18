@@ -1,3 +1,9 @@
+<?php
+use app\modules\chat\ChatJs;
+
+$bundle = ChatJs::register($this);
+?>
+
 <div class="box box-success">
     <div class="box-header ui-sortable-handle" style="cursor: move;">
         <i class="fa fa-comments-o"></i>

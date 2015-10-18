@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 
 $params = ArrayHelper::merge(
     require(__DIR__ . '/params.php'),
@@ -17,6 +18,8 @@ $config = [
         ],
         'chat' => [
             'class' => 'app\modules\chat\Module',
+            'url' => 'chat\default\sendchat',//'modules\chat\default\send-chat',
+            'userField' => 'avatarImage',
         ],
     ],
     'defaultRoute' => 'main/default/index',
