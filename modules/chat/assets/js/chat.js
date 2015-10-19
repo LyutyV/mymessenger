@@ -33,3 +33,11 @@ $("#menu-toggle").click(function(e) {
     e.preventDefault();
     $("#wrapper").toggleClass("toggled");
 });
+
+
+$('.item').hover(
+  function(){
+    $(this).css("background-color", "#f0f0f0")},
+  function(){
+    $(this).css("background-color", "#ffffff")}
+);
