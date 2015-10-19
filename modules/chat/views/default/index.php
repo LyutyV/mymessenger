@@ -53,7 +53,7 @@ $bundle = ChatAsset::register($this);
                                 <div id="chat-box" class="box-body chat" style="overflow: hidden; width: auto; height: 350px;">
                                     <?php
                                         //var_dump($data['chat']);
-                                        echo $data['chat'];
+                                        //echo $data['chat'];
                                     ?>
                                 </div>
                                 <div class="slimScrollBar" style="background: none repeat scroll 0% 0% rgb(0, 0, 0); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 0px; z-index: 99; right: 1px; height: 187.126px;"></div>

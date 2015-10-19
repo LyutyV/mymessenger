@@ -68,8 +68,20 @@ class Chat extends \yii\db\ActiveRecord {
         return static::find()->orderBy('id desc')->all();
     }
 
+    public function users() {
+        $output = '';
+        $allUsers = User::getAllUsers();
+        if ($allUsers) {
+            foreach ($allUsers as $userItem) {
+                $output['userList'] .= '<li>
+                    <a href="#">' . $userItem->username . '</a>
+                </li>';
+            }
+        }
+        return $output;
+    }
 
-    public function data() {
+    public function conversation() {
         $userField = $this->userField;
         $output = ['userList' => '', 'chat' => ''];
         $models = Chat::records();
@@ -106,5 +118,4 @@ class Chat extends \yii\db\ActiveRecord {
 
         return $output;
     }
-
 }

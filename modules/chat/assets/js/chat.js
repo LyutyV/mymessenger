@@ -13,9 +13,6 @@ function reloadchat(message, clearChat) {
             $("#chat-box").html(html['chat']);
         },
         error: function (xhr, ajaxOptions, thrownError){
-            //alert(xhr.responseText);
-            //alert(thrownError);
-            var x = 0;
         }
     });
 }
@@ -41,3 +38,23 @@ $('.item').hover(
   function(){
     $(this).css("background-color", "#ffffff")}
 );
+
+$("li a").click(function() {
+
+    var url = 'chat\\default\\getnewchat';
+    var model = $(".btn-send-comment").data("model");
+    //var user1 = $(this).val();
+    var user2 = $(this).text();
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: {user2: user2, model: model},
+        success: function (html) {
+            $("#chat-box").html(html['chat']);
+        },
+        error: function (xhr, ajaxOptions, thrownError){
+        }
+    });
+
+
+});
