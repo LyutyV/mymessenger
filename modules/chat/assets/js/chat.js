@@ -26,3 +26,10 @@ $(".btn-send-comment").on("click", function () {
     var message = $("#chat_message").val();
     reloadchat(message, true);
 });
+
+
+
+$("#menu-toggle").click(function(e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("toggled");
+});

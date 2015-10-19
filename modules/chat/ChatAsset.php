@@ -1,24 +1,19 @@
 <?php
 
-/**
- * @link https://github.com/sintret/yii2-chat-adminlte
- * @copyright Copyright (c) 2014 Andy fitria 
- * @license MIT
- */
-
 namespace app\modules\chat;
 
 use Yii;
 use yii\web\AssetBundle;
 
-/**
- * @author Andy Fitria <sintret@gmail.com>
- */
-class ChatJs extends AssetBundle {
+class ChatAsset extends AssetBundle {
 
     public $sourcePath = '@app/modules/chat/assets';
+
     public $js = [
         'js/chat.js',
+    ];
+    public $css = [
+        'css/simple-sidebar.css',
     ];
     public $depends = [
         'yii\web\JqueryAsset',

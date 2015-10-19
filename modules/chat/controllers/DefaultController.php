@@ -5,7 +5,6 @@ namespace app\modules\chat\controllers;
 use Yii;
 use yii\web\Controller;
 use app\modules\chat\models\Chat;
-use app\modules\chat\ChatJs;
  
 class DefaultController extends Controller
 {
@@ -20,7 +19,6 @@ class DefaultController extends Controller
  
     public function actionIndex()
     {
-        ChatJs::register($this->view);
         $module = \Yii::$app->controller->module;
         $model = new Chat();
         $model->userModel = $module->userModel;
