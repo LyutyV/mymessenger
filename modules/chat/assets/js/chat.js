@@ -10,7 +10,7 @@ function reloadchat(message, clearChat) {
             if (clearChat == true) {
                 $("#chat_message").val("");
             }
-            $("#chat-box").html(html);
+            $("#chat-box").html(html['chat']);
         },
         error: function (xhr, ajaxOptions, thrownError){
             //alert(xhr.responseText);

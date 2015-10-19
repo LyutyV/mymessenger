@@ -3,6 +3,7 @@
 namespace app\modules\chat\models;
 
 use Yii;
+use app\modules\user\models\User;
 
 /**
  * This is the model class for table "chat".
@@ -63,19 +64,35 @@ class Chat extends \yii\db\ActiveRecord {
         return static::find()->orderBy('id desc')->limit(10)->all();
     }
 
+    public static function allUsers() {
+        return static::find()->orderBy('id desc')->all();
+    }
+
+
     public function data() {
         $userField = $this->userField;
-        $output = '';
+        $output = ['userList' => '', 'chat' => ''];
         $models = Chat::records();
+        $allUsers = User::getAllUsers();
+        if ($allUsers) {
+            foreach ($allUsers as $userItem) {
+                $output['userList'] .= '<li>
+                    <a href="#">' . $userItem->username . '</a>
+                </li>';
+            }
+        }
         if ($models)
             foreach ($models as $model) {
                 if (isset($model->user->$userField)) {
                     $avatar = $model->user->$userField;
                 } else{
-                    $avatar = Yii::$app->assetManager->getPublishedUrl("@vendor/sintret/yii2-chat-adminlte/assets/img/avatar.png");
+                    //$avatar = Yii::$app->assetManager->getPublishedUrl("@modules/chat/assets/img/avatar.png");
+                    $avatar = Yii::$app->assetManager->getPublishedUrl("/assets/img/avatar.png");
                 }
+
+
                     
-                $output .= '<div class="item">
+                $output['chat'] .= '<div class="item">
                 <img class="online" alt="user image" src="' . $avatar . '">
                 <p class="message">
                     <a class="name" href="#">

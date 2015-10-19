@@ -12,7 +12,8 @@ $bundle = ChatAsset::register($this);
                         Users list
                     </a>
                 </li>
-                <li>
+                <?=$data['userList']?>
+<!--                 <li>
                     <a href="#">Dashboard</a>
                 </li>
                 <li>
@@ -33,7 +34,7 @@ $bundle = ChatAsset::register($this);
                 <li>
                     <a href="#">Contact</a>
                 </li>
-            </ul>
+ -->            </ul>
         </div>
         <!-- /#sidebar-wrapper -->
 
@@ -50,7 +51,10 @@ $bundle = ChatAsset::register($this);
                             </div>
                             <div class="slimScrollDiv" style="position: relative; overflow: scroll; width: auto; height: 350px;">
                                 <div id="chat-box" class="box-body chat" style="overflow: hidden; width: auto; height: 350px;">
-                                    <?=$data?>
+                                    <?php
+                                        //var_dump($data['chat']);
+                                        echo $data['chat'];
+                                    ?>
                                 </div>
                                 <div class="slimScrollBar" style="background: none repeat scroll 0% 0% rgb(0, 0, 0); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 0px; z-index: 99; right: 1px; height: 187.126px;"></div>
                                 <div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 0px; background: none repeat scroll 0% 0% rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>

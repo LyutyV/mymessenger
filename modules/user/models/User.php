@@ -268,4 +268,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         $this->email_confirm_token = null;
     }
+
+    public static function getAllUsers()
+    {
+        return static::find('username')->All();
+    }
 }
