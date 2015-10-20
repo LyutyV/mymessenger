@@ -5,6 +5,7 @@ namespace app\modules\chat\controllers;
 use Yii;
 use yii\web\Controller;
 use app\modules\chat\models\Chat;
+use app\modules\user\models\User;
  
 class DefaultController extends Controller
 {
@@ -23,7 +24,7 @@ class DefaultController extends Controller
         $model = new Chat();
         $model->userModel = $module->userModel;
         $model->userField = $module->userField;
-        $data = $model->conversation();
+        $data = $model->users();
         return $this->render('index', [
                     'data' => $data,
                     'url' => $module->url,
@@ -46,42 +47,51 @@ class DefaultController extends Controller
 
             $model = new Chat;
             $model->userModel = $userModel;
+            $model->userId = Yii::$app->user->id;
+            $model->user2Model = User::findByUsername($user2);
 
-            echo $model->conversation();
+            $tmpval = $model->conversation();
+            echo json_encode($tmpval);
+            //echo var_dump($model);
         }
+        else
+            echo 'Test0';
     }
 
     public function actionSendchat()
     {
         if (!empty($_POST))
         {
-            if (isset($_POST['message']))
-                $message = $_POST['message'];
-            if (isset($_POST['userfield']))
-                $userField = $_POST['userfield'];
-            if (isset($_POST['model']))
-                $userModel = $_POST['model'];
-            else
-                $userModel = Yii::$app->getUser()->identityClass;
+            // if (isset($_POST['message']))
+            //     $message = $_POST['message'];
+            // if (isset($_POST['userfield']))
+            //     $userField = $_POST['userfield'];
+            // if (isset($_POST['user2Name']))
+            //     $user1Name = $_POST['user2Name'];
+            // if (isset($_POST['model']))
+            //     $userModel = $_POST['model'];
+            // else
+            //     $userModel = Yii::$app->getUser()->identityClass;
 
-            $model = new Chat;
-            $model->userModel = $userModel;
-            if ($userField)
-                $model->userField = $userField;
+            // $model = new Chat;
+            // $model->userModel = $userModel;
+            // if ($userField)
+            //     $model->userField = $userField;
 
-            if ($message) {
-                $model->message = $message;
-                $model->userId = Yii::$app->user->id;
+            // if ($message) {
+            //     $model->message = $message;
+            //     $model->userId = Yii::$app->user->id;
+            //     $model->user1Id = //Сюда получать получателя сообщения
 
-                if ($model->save()) {
-                    echo $model->conversation();
-                } else {
-                    print_r($model->getErrors());
-                    exit(0);
-                }
-            } else {
-                echo $model->conversation();
-            }
+            //     if ($model->save()) {
+            //         echo $model->conversation();
+            //     } else {
+            //         print_r($model->getErrors());
+            //         exit(0);
+            //     }
+            // } else {
+            //     echo $model->conversation();
+            // }
         }
     }
 

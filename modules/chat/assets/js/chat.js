@@ -1,20 +1,21 @@
 function reloadchat(message, clearChat) {
-    var url = $(".btn-send-comment").data("url");
-    var model = $(".btn-send-comment").data("model");
-    var userfield = $(".btn-send-comment").data("userfield");
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: {message: message, model: model, userfield: userfield},
-        success: function (html) {
-            if (clearChat == true) {
-                $("#chat_message").val("");
-            }
-            $("#chat-box").html(html['chat']);
-        },
-        error: function (xhr, ajaxOptions, thrownError){
-        }
-    });
+    // var url = $(".btn-send-comment").data("url");
+    // var model = $(".btn-send-comment").data("model");
+    // var userfield = $(".btn-send-comment").data("userfield");
+    // var user2Name = $(".box-title").text();
+    // $.ajax({
+    //     url: url,
+    //     type: "POST",
+    //     data: {message: message, model: model, userfield: userfield, user2Name: user2Name},
+    //     success: function (html) {
+    //         if (clearChat == true) {
+    //             $("#chat_message").val("");
+    //         }
+    //         $("#chat-box").html(html);
+    //     },
+    //     error: function (xhr, ajaxOptions, thrownError){
+    //     }
+    // });
 }
 setInterval(function () {
     reloadchat('', false);
@@ -43,16 +44,18 @@ $("li a").click(function() {
 
     var url = 'chat\\default\\getnewchat';
     var model = $(".btn-send-comment").data("model");
-    //var user1 = $(this).val();
     var user2 = $(this).text();
     $.ajax({
         url: url,
         type: "POST",
+        dataType: 'json',
         data: {user2: user2, model: model},
         success: function (html) {
             $("#chat-box").html(html['chat']);
+            $(".box-title").text(html['user2']);
         },
         error: function (xhr, ajaxOptions, thrownError){
+            var x = 0;
         }
     });
 

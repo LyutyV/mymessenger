@@ -16,6 +16,7 @@ use app\modules\user\models\User;
 class Chat extends \yii\db\ActiveRecord {
 
     public $userModel;
+    public $user2Model;
     public $userField;
 
     /**
@@ -60,8 +61,18 @@ class Chat extends \yii\db\ActiveRecord {
         return parent::beforeSave($insert);
     }
 
-    public static function records() {
-        return static::find()->orderBy('id desc')->limit(10)->all();
+    public static function records($userId, $user2Id) {
+        return static::findBySql("SELECT * FROM `chat` WHERE userId = ".$userId." AND user2Id = ".$user2Id." OR
+userId = ".$user2Id." AND user2Id = ".$userId." ORDER BY id DESC LIMIT 10")->all();
+
+        return static::findAll([
+                'userId' => $userId,
+                'user2Id' => $user2Id
+            ]);
+            //->where(['userId' => $userId])
+            //->andWhere(['user2Id' => $user2Id])->all();//->
+            //orWhere(['userId' => $user2Id])->andWhere(['user2Id' => $userId])->
+            //orderBy('id desc')->limit(10)->all();
     }
 
     public static function allUsers() {
@@ -82,17 +93,10 @@ class Chat extends \yii\db\ActiveRecord {
     }
 
     public function conversation() {
-        $userField = $this->userField;
-        $output = ['userList' => '', 'chat' => ''];
-        $models = Chat::records();
-        $allUsers = User::getAllUsers();
-        if ($allUsers) {
-            foreach ($allUsers as $userItem) {
-                $output['userList'] .= '<li>
-                    <a href="#">' . $userItem->username . '</a>
-                </li>';
-            }
-        }
+         $userField = $this->userField;
+         $output = ['user2' => '', 'chat' => ''];
+         $models = Chat::records($this->userId, $this->user2Model->id);
+         $output['user2'] = $this->user2Model->username;
         if ($models)
             foreach ($models as $model) {
                 if (isset($model->user->$userField)) {
@@ -115,7 +119,6 @@ class Chat extends \yii\db\ActiveRecord {
                 </p>
             </div>';
             }
-
         return $output;
     }
 }
