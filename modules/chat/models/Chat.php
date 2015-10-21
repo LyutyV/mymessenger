@@ -87,21 +87,11 @@ class Chat extends \yii\db\ActiveRecord {
     }
 
     public function conversation() {
-         $userField = $this->userField;
-         $output = ['user2' => '', 'chat' => ''];
-         $models = Chat::records($this->userId, $this->user2Model->id);
-         $output['user2'] = $this->user2Model->username;
+        $output = ['user2' => '', 'chat' => ''];
+        $models = Chat::records($this->userId, $this->user2Model->id);
+        $output['user2'] = $this->user2Model->username;
         if ($models)
             foreach ($models as $model) {
-                if (isset($model->user->$userField)) {
-                    $avatar = $model->user->$userField;
-                } else{
-                    //$avatar = Yii::$app->assetManager->getPublishedUrl("@modules/chat/assets/img/avatar.png");
-                    $avatar = Yii::$app->assetManager->getPublishedUrl("/assets/img/avatar.png");
-                }
-
-
-                    
                 $output['chat'] .= '<div class="item">
                 <!--<img class="online" alt="user image" src="' . $avatar . '">-->
                 <p class="message">
@@ -119,4 +109,26 @@ class Chat extends \yii\db\ActiveRecord {
             }
         return $output;
     }
+
+    public function getNewItem() {
+        $output = '';
+
+        $output .= '<div class="item">
+        <!--<img class="online" alt="user image" src="' . $avatar . '">-->
+        <p class="message">
+            <a class="name" href="#">
+                <small class="text-muted pull-right" style="color:green"><i class="fa fa-clock-o"></i> ' . \kartik\helpers\Enum::timeElapsed($this->updateDate) . '</small>
+                ' . $this->user->username . '
+            </a>
+            ' . $this->message . '
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary" id="editButton" data-url="" data-model=""><i class="fa fa-pencil fa-fw"></i></button>
+                <button type="button" class="btn btn-danger" id="deleteButton" data-url="" data-model=""><i class="fa fa-trash-o fa-lg"></i></button>
+           </div>
+        </p>
+        </div>';
+        
+        return $output;
+    }
+
 }

@@ -1,25 +1,37 @@
+var stopUpdate = false;
+
 function reloadchat(message, clearChat) {
     var url = $(".btn-send-comment").data("url");
     var model = $(".btn-send-comment").data("model");
     var userfield = $(".btn-send-comment").data("userfield");
     var user2Name = $(".box-title").text();
-    // $.ajax({
-    //     url: url,
-    //     type: "POST",
-    //     data: {message: message, model: model, userfield: userfield, user2Name: user2Name},
-    //     success: function (html) {
-    //         if (clearChat == true) {
-    //             $("#chat_message").val("");
-    //         }
-    //         $("#chat-box").html(html);
-    //     },
-    //     error: function (xhr, ajaxOptions, thrownError){
-    //     }
-    // });
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: 'json',
+        data: {message: message, model: model, userfield: userfield, user2Name: user2Name},
+        success: function (html) {
+            if (clearChat == true){// && html == 'Saved') {
+                $("#chat_message").val("");
+                //$(".box-body").prepend(html);
+            }
+            $("#chat-box").html(html['chat']);
+            //$(".box-title").text(html['user2']);
+            // else
+            // {
+            //     //Тут обновлять все
+            // }
+        },
+        error: function (xhr, ajaxOptions, thrownError){
+        }
+    });
 }
-// setInterval(function () {
-//     reloadchat('', false);
-// }, 2000);
+setInterval(function () {
+    if (!stopUpdate)
+    {
+        reloadchat('', false);
+    };
+}, 2000);
 $(".btn-send-comment").on("click", function () {
     var message = $("#chat_message").val();
     reloadchat(message, true);
@@ -38,7 +50,7 @@ $('.item').hover(
 );
 
 $("li a").click(function() {
-
+    stopUpdate = true;
     var url = 'chat\\default\\getnewchat';
     var model = $(".btn-send-comment").data("model");
     var user2 = $(this).text();
@@ -55,10 +67,11 @@ $("li a").click(function() {
             var x = 0;
         }
     });
+    stopUpdate = false;
 });
 
 $(document).on("click", "#deleteButton", function () {
-    var t = 0;
+    
 });
 
 $(document).on("click", "#editButton", function () {
