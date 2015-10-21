@@ -34,6 +34,20 @@ class DefaultController extends Controller
         ]);
     }
 
+    public function actionDeletemessage()
+    {
+        if (!empty($_POST))
+        {
+            if (isset($_POST['id']))
+                $id = $_POST['id'];
+
+            $model = Chat::find()->where(['id' => $id])->one();
+            $model->isDelete = 1;
+            $model->save();
+            //Тут выдаем обновленную таблицу
+        }
+    }
+
     public function actionGetnewchat()
     {
         if (!empty($_POST))
@@ -45,7 +59,7 @@ class DefaultController extends Controller
             else
                 $userModel = Yii::$app->getUser()->identityClass;
 
-            $model = new Chat;
+            $model = new Chat();
             $model->userModel = $userModel;
             $model->userId = Yii::$app->user->id;
             $model->user2Model = User::findByUsername($user2);
@@ -69,7 +83,7 @@ class DefaultController extends Controller
             if (isset($_POST['user2Name']))
                 $user2Name = $_POST['user2Name'];
 
-            $model = new Chat;
+            $model = new Chat();
             $model->userModel = $userModel;
             $model->userId = Yii::$app->user->id;
             $model->user2Model = User::findByUsername($user2Name);

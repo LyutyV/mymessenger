@@ -1,36 +1,30 @@
 var stopUpdate = false;
 
 function reloadchat(message, clearChat) {
-    var url = $(".btn-send-comment").data("url");
-    var model = $(".btn-send-comment").data("model");
-    var userfield = $(".btn-send-comment").data("userfield");
-    var user2Name = $(".box-title").text();
-    $.ajax({
-        url: url,
-        type: "POST",
-        dataType: 'json',
-        data: {message: message, model: model, userfield: userfield, user2Name: user2Name},
-        success: function (html) {
-            if (clearChat == true){// && html == 'Saved') {
-                $("#chat_message").val("");
-                //$(".box-body").prepend(html);
-            }
-            $("#chat-box").html(html['chat']);
-            //$(".box-title").text(html['user2']);
-            // else
-            // {
-            //     //Тут обновлять все
-            // }
-        },
-        error: function (xhr, ajaxOptions, thrownError){
-        }
-    });
-}
-setInterval(function () {
     if (!stopUpdate)
     {
-        reloadchat('', false);
+        var url = $(".btn-send-comment").data("url");
+        var model = $(".btn-send-comment").data("model");
+        var userfield = $(".btn-send-comment").data("userfield");
+        var user2Name = $(".box-title").text();
+        $.ajax({
+            url: url,
+            type: "POST",
+            dataType: 'json',
+            data: {message: message, model: model, userfield: userfield, user2Name: user2Name},
+            success: function (html) {
+                if (clearChat == true){
+                    $("#chat_message").val("");
+                }
+                $("#chat-box").html(html['chat']);
+            },
+            error: function (xhr, ajaxOptions, thrownError){
+            }
+        });
     };
+}
+setInterval(function () {
+    reloadchat('', false);
 }, 2000);
 $(".btn-send-comment").on("click", function () {
     var message = $("#chat_message").val();
@@ -42,12 +36,8 @@ $("#menu-toggle").click(function(e) {
     $("#wrapper").toggleClass("toggled");
 });
 
-$('.item').hover(
-  function(){
-    $(this).css("background-color", "#f0f0f0")},
-  function(){
-    $(this).css("background-color", "#ffffff")}
-);
+$(document).on('mouseover','.item', function(){$(this).css("background-color", "#f0f0f0")});
+$(document).on('mouseout','.item', function(){$(this).css("background-color", "#ffffff")});
 
 $("li a").click(function() {
     stopUpdate = true;
@@ -71,7 +61,8 @@ $("li a").click(function() {
 });
 
 $(document).on("click", "#deleteButton", function () {
-    
+    var url = 'chat\\default\\deletemessage';
+    var model = $(this).data("id");
 });
 
 $(document).on("click", "#editButton", function () {

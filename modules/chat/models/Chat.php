@@ -101,8 +101,8 @@ class Chat extends \yii\db\ActiveRecord {
                     </a>
                     ' . $model->message . '
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" id="editButton" data-url="" data-model=""><i class="fa fa-pencil fa-fw"></i></button>
-                        <button type="button" class="btn btn-danger" id="deleteButton" data-url="" data-model=""><i class="fa fa-trash-o fa-lg"></i></button>
+                        <button type="button" class="btn btn-primary" id="editButton" data-id="'.$model->id.'"><i class="fa fa-pencil fa-fw"></i></button>
+                        <button type="button" class="btn btn-danger" id="deleteButton" data-id="'.$model->id.'"><i class="fa fa-trash-o fa-lg"></i></button>
                    </div>
                 </p>
             </div>';
@@ -110,25 +110,25 @@ class Chat extends \yii\db\ActiveRecord {
         return $output;
     }
 
-    public function getNewItem() {
-        $output = '';
+    // public function getNewItem() {
+    //     $output = '';
 
-        $output .= '<div class="item">
-        <!--<img class="online" alt="user image" src="' . $avatar . '">-->
-        <p class="message">
-            <a class="name" href="#">
-                <small class="text-muted pull-right" style="color:green"><i class="fa fa-clock-o"></i> ' . \kartik\helpers\Enum::timeElapsed($this->updateDate) . '</small>
-                ' . $this->user->username . '
-            </a>
-            ' . $this->message . '
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary" id="editButton" data-url="" data-model=""><i class="fa fa-pencil fa-fw"></i></button>
-                <button type="button" class="btn btn-danger" id="deleteButton" data-url="" data-model=""><i class="fa fa-trash-o fa-lg"></i></button>
-           </div>
-        </p>
-        </div>';
+    //     $output .= '<div class="item">
+    //     <!--<img class="online" alt="user image" src="' . $avatar . '">-->
+    //     <p class="message">
+    //         <a class="name" href="#">
+    //             <small class="text-muted pull-right" style="color:green"><i class="fa fa-clock-o"></i> ' . \kartik\helpers\Enum::timeElapsed($this->updateDate) . '</small>
+    //             ' . $this->user->username . '
+    //         </a>
+    //         ' . $this->message . '
+    //         <div class="btn-group">
+    //             <button type="button" class="btn btn-primary" id="editButton" data-url="" data-model=""><i class="fa fa-pencil fa-fw"></i></button>
+    //             <button type="button" class="btn btn-danger" id="deleteButton" data-url="" data-model=""><i class="fa fa-trash-o fa-lg"></i></button>
+    //        </div>
+    //     </p>
+    //     </div>';
         
-        return $output;
-    }
+    //     return $output;
+    // }
 
 }
