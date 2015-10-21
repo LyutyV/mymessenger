@@ -14,6 +14,7 @@ class ChatAsset extends AssetBundle {
     ];
     public $css = [
         'css/simple-sidebar.css',
+        'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css',
     ];
     public $depends = [
         'yii\web\JqueryAsset',

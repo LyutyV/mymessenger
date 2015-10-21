@@ -1,8 +1,8 @@
 function reloadchat(message, clearChat) {
-    // var url = $(".btn-send-comment").data("url");
-    // var model = $(".btn-send-comment").data("model");
-    // var userfield = $(".btn-send-comment").data("userfield");
-    // var user2Name = $(".box-title").text();
+    var url = $(".btn-send-comment").data("url");
+    var model = $(".btn-send-comment").data("model");
+    var userfield = $(".btn-send-comment").data("userfield");
+    var user2Name = $(".box-title").text();
     // $.ajax({
     //     url: url,
     //     type: "POST",
@@ -17,21 +17,18 @@ function reloadchat(message, clearChat) {
     //     }
     // });
 }
-setInterval(function () {
-    reloadchat('', false);
-}, 2000);
+// setInterval(function () {
+//     reloadchat('', false);
+// }, 2000);
 $(".btn-send-comment").on("click", function () {
     var message = $("#chat_message").val();
     reloadchat(message, true);
 });
 
-
-
 $("#menu-toggle").click(function(e) {
     e.preventDefault();
     $("#wrapper").toggleClass("toggled");
 });
-
 
 $('.item').hover(
   function(){
@@ -58,6 +55,12 @@ $("li a").click(function() {
             var x = 0;
         }
     });
+});
 
+$(document).on("click", "#deleteButton", function () {
+    var t = 0;
+});
 
+$(document).on("click", "#editButton", function () {
+    var t = 0;
 });
