@@ -62,9 +62,42 @@ $("li a").click(function() {
 
 $(document).on("click", "#deleteButton", function () {
     var url = 'chat\\default\\deletemessage';
-    var model = $(this).data("id");
+    var messageId = $(this).data("id");
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: 'json',
+        data: {id: messageId},
+        success: function (html) {
+            if (html == 'doneDelete')
+            {
+
+            };
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+        }
+    });
 });
 
 $(document).on("click", "#editButton", function () {
     var t = 0;
+});
+
+$(document).on("click", "#refreshButton", function () {
+    var url = 'chat\\default\\readmessage';
+    var messageId = $(this).data("id");
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: 'json',
+        data: {id: messageId},
+        success: function (html) {
+            if (html == 'doneRead')
+            {
+
+            };
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+        }
+    });
 });

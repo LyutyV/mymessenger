@@ -39,12 +39,28 @@ class DefaultController extends Controller
         if (!empty($_POST))
         {
             if (isset($_POST['id']))
-                $id = $_POST['id'];
-
-            $model = Chat::find()->where(['id' => $id])->one();
+                $messageId = $_POST['id'];
+            $model = Chat::findOne($messageId);
             $model->isDelete = 1;
-            $model->save();
-            //Тут выдаем обновленную таблицу
+            if ($model->save())
+            {
+                echo json_encode("doneDelete");
+            }
+        }
+    }
+
+    public function actionReadmessage()
+    {
+        if (!empty($_POST))
+        {
+            if (isset($_POST['id']))
+                $messageId = $_POST['id'];
+            $model = Chat::findOne($messageId);
+            $model->isRead = 1;
+            if ($model->save())
+            {
+                echo json_encode("doneRead");
+            }
         }
     }
 

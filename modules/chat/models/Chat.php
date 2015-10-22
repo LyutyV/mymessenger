@@ -31,8 +31,9 @@ class Chat extends \yii\db\ActiveRecord {
      */
     public function rules() {
         return [
-            [['message'], 'required'],
+            [['message', 'userId', 'user2Id'], 'required'],
             [['userId'], 'integer'],
+            [['user2Id'], 'integer'],
             [['updateDate', 'message'], 'safe']
         ];
     }
@@ -52,18 +53,14 @@ class Chat extends \yii\db\ActiveRecord {
             'id' => 'ID',
             'message' => 'Message',
             'userId' => 'User',
+            'user`2Id' => 'User2',
             'updateDate' => 'Update Date',
         ];
     }
 
-    public function beforeSave($insert) {
-        $this->userId = Yii::$app->user->id;
-        return parent::beforeSave($insert);
-    }
-
     public static function records($userId, $user2Id) {
         return static::findBySql("SELECT * FROM `chat` WHERE userId = ".$userId." AND user2Id = ".$user2Id."
-                                    OR userId = ".$user2Id." AND user2Id = ".$userId." ORDER BY id DESC LIMIT 10")->all();
+                                    OR userId = ".$user2Id." AND user2Id = ".$userId." ORDER BY id DESC")->all();
     }
 
     public static function allUsers() {
@@ -75,8 +72,6 @@ class Chat extends \yii\db\ActiveRecord {
         $allUsers = User::getAllUsers();
         if ($allUsers) {
             foreach ($allUsers as $userItem) {
-                //if ($userItem->username == $currentUser) continue;
-
                 $output['userList'] .= '<li>
                     <a href="#">' . $userItem->username . '</a>
                 </li>';
@@ -90,45 +85,52 @@ class Chat extends \yii\db\ActiveRecord {
         $output = ['user2' => '', 'chat' => ''];
         $models = Chat::records($this->userId, $this->user2Model->id);
         $output['user2'] = $this->user2Model->username;
+        
         if ($models)
             foreach ($models as $model) {
+                $isRead = $model->isRead ? 'fa-check-square-o':'fa-square-o';
+                $isDeleted = $isDisabled = '';
+                if (!$model->isDelete)
+                {
+                    $isDisabledDeleteButton = ' disabled';
+                }
+                else
+                {
+                    $isDeleted = '<span class="text-danger">Deleted</span>';
+                    $isDisabledDeleteButton = '';
+                }
+                if (!$model->isRead)
+                {
+                    $message = "<button type='button' class='btn btn-success' id='refreshButton' data-id='".$model->id."'><i class='fa fa-refresh fa-spin'></i> New message...</button>";
+                    $isDisabledEditButton = ' disabled';
+                }
+                else
+                {
+                    $message = '<input class="col-md-12" type="text" disabled="disabled" value="' . $model->message . '">';
+                    $isDisabledEditButton = '';
+                    $isDisabledDeleteButton = '';
+                }
+//<input class="col-md-12" type="text" disabled="disabled" value="' . $message . '">
                 $output['chat'] .= '<div class="item">
-                <!--<img class="online" alt="user image" src="' . $avatar . '">-->
                 <p class="message">
                     <a class="name" href="#">
                         <small class="text-muted pull-right" style="color:green"><i class="fa fa-clock-o"></i> ' . \kartik\helpers\Enum::timeElapsed($model->updateDate) . '</small>
                         ' . $model->user->username . '
+                    </br>
                     </a>
-                    ' . $model->message . '
+                    ' . $message . '
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary" id="editButton" data-id="'.$model->id.'"><i class="fa fa-pencil fa-fw"></i></button>
-                        <button type="button" class="btn btn-danger" id="deleteButton" data-id="'.$model->id.'"><i class="fa fa-trash-o fa-lg"></i></button>
-                   </div>
+                        <button type="button" class="btn btn-primary'.$isDisabledEditButton.'" id="editButton" data-id="'.$model->id.'"><i class="fa fa-pencil fa-fw"></i></button>
+                        <button type="button" class="btn btn-danger'.$isDisabledDeleteButton.'" id="deleteButton" data-id="'.$model->id.'"><i class="fa fa-trash-o fa-lg"></i></button>
+                    </div>
+                    <span class="fa-stack fa-lg' . $model->id . '">
+                        <i class="fa fa-square-o fa-stack-2x"></i>
+                        <i class="fa '. $isRead .' fa-stack-1x"></i>
+                    </span>
+                    '.$isDeleted.'
                 </p>
             </div>';
             }
         return $output;
     }
-
-    // public function getNewItem() {
-    //     $output = '';
-
-    //     $output .= '<div class="item">
-    //     <!--<img class="online" alt="user image" src="' . $avatar . '">-->
-    //     <p class="message">
-    //         <a class="name" href="#">
-    //             <small class="text-muted pull-right" style="color:green"><i class="fa fa-clock-o"></i> ' . \kartik\helpers\Enum::timeElapsed($this->updateDate) . '</small>
-    //             ' . $this->user->username . '
-    //         </a>
-    //         ' . $this->message . '
-    //         <div class="btn-group">
-    //             <button type="button" class="btn btn-primary" id="editButton" data-url="" data-model=""><i class="fa fa-pencil fa-fw"></i></button>
-    //             <button type="button" class="btn btn-danger" id="deleteButton" data-url="" data-model=""><i class="fa fa-trash-o fa-lg"></i></button>
-    //        </div>
-    //     </p>
-    //     </div>';
-        
-    //     return $output;
-    // }
-
 }
