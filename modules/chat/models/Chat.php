@@ -106,13 +106,13 @@ class Chat extends \yii\db\ActiveRecord {
                 }
                 else
                 {
-                    $message = '<input class="col-md-12" type="text" id="message'. $model->id .'" disabled="true" value="' . $model->message . '">';
+                    $message = '<input class="col-md-12" tag="xx" type="text" id="message'. $model->id .'" disabled="true" value="' . $model->message . '">';
                     $isDisabledEditButton = '';
                     $isDisabledDeleteButton = '';
                 }
 
                 $output['chat'] .= '<div class="item">
-                <p class="message">
+                <p class="message" data-messageContainer="'. $model->message .'">
                     <a class="name" href="#">
                         <small class="text-muted pull-right" style="color:green"><i class="fa fa-clock-o"></i> ' . \kartik\helpers\Enum::timeElapsed($model->updateDate) . '</small>
                         ' . $model->user->username . '
@@ -134,3 +134,22 @@ class Chat extends \yii\db\ActiveRecord {
         return $output;
     }
 }
+/*
+<p class="message">
+    <a class="name" href="#">
+        <small class="text-muted pull-right" style="color:green"><i class="fa fa-clock-o"></i> ' . \kartik\helpers\Enum::timeElapsed($model->updateDate) . '</small>
+        ' . $model->user->username . '
+    </br>
+    </a>
+    <input class="col-md-12" type="text" id="message'. $model->id .'" disabled="true" value="!!!!!!!!!!!!">
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary'.$isDisabledEditButton.'" id="editButton" data-id="'.$model->id.'"><i class="fa fa-pencil fa-fw" id="editIcon'.$model->id.'"></i></button>
+        <button type="button" class="btn btn-danger'.$isDisabledDeleteButton.'" id="deleteButton" data-id="'.$model->id.'"><i class="fa fa-trash-o fa-lg"></i></button>
+    </div>
+    <span class="fa-stack fa-lg' . $model->id . '">
+        <i class="fa fa-square-o fa-stack-2x"></i>
+        <i class="fa '. $isRead .' fa-stack-1x"></i>
+    </span>
+    '.$isDeleted.'
+</p>
+*/

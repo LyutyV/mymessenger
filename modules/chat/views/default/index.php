@@ -25,14 +25,12 @@ $bundle = ChatAsset::register($this);
                         <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Hide userlist</a>
                         <div class="box box-success">
                             <div class="box-header ui-sortable-handle" style="cursor: move;">
-                                <i class="fa fa-comments-o"></i>
+                                <input type="text" class="form-control" id="findControl" placeholder="find message...">
                                 <h3 class="box-title">Chat</h3>
                             </div>
                             <div class="slimScrollDiv" style="position: relative; overflow: scroll; width: auto; height: 350px;">
                                 <div id="chat-box" class="box-body chat" style="overflow: hidden; width: auto;">
-                                    <?php
-                                        //var_dump($data['chat']);
-                                        //echo $data['chat'];
+                                    <?php//тут вставляють сообщения
                                     ?>
                                 </div>
                                 <div class="slimScrollBar" style="background: none repeat scroll 0% 0% rgb(0, 0, 0); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 0px; z-index: 99; right: 1px; height: 187.126px;"></div>

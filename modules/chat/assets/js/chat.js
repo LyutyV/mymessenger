@@ -1,7 +1,7 @@
-var stopUpdate = false;
+var isEditing = isSearching = isUserChanging = false;
 
 function reloadchat(message, clearChat) {
-    if (!stopUpdate)
+    if (!isEditing && !isSearching && !isUserChanging)
     {
         var url = $(".btn-send-comment").data("url");
         var model = $(".btn-send-comment").data("model");
@@ -16,7 +16,8 @@ function reloadchat(message, clearChat) {
                 if (clearChat == true){
                     $("#chat_message").val("");
                 }
-                $("#chat-box").html(html['chat']);
+                if (!isEditing && !isSearching && !isUserChanging)
+                    $("#chat-box").html(html['chat']);
             },
             error: function (xhr, ajaxOptions, thrownError){
             }
@@ -25,6 +26,7 @@ function reloadchat(message, clearChat) {
 }
 setInterval(function () {
     reloadchat('', false);
+    checkFindConrol();
 }, 2000);
 $(".btn-send-comment").on("click", function () {
     var message = $("#chat_message").val();
@@ -40,7 +42,7 @@ $(document).on('mouseover','.item', function(){$(this).css("background-color", "
 $(document).on('mouseout','.item', function(){$(this).css("background-color", "#ffffff")});
 
 $("li a").click(function() {
-    stopUpdate = true;
+    isUserChanging = true;
     var url = 'chat\\default\\getnewchat';
     var model = $(".btn-send-comment").data("model");
     var user2 = $(this).text();
@@ -57,7 +59,7 @@ $("li a").click(function() {
             var x = 0;
         }
     });
-    stopUpdate = false;
+    isUserChanging = false;
 });
 
 $(document).on("click", "#deleteButton", function () {
@@ -80,7 +82,7 @@ $(document).on("click", "#deleteButton", function () {
 });
 
 $(document).on("click", "#editButton", function () {
-    stopUpdate = true;
+    isEditing = true;
     var messageId = $(this).data("id");
     $('#message' + messageId).prop("disabled", false);
     $('#editButton').prop("id", "saveButton");
@@ -89,9 +91,6 @@ $(document).on("click", "#editButton", function () {
 
 $(document).on("click", "#saveButton", function () {
     var messageId = $(this).data("id");
-    $('#message' + messageId).prop("disabled", false);
-    $('#saveButton').prop("id", "editButton");
-    $("#editIcon" + messageId).removeClass("fa fa-save fa-fw").addClass("fa fa-pencil fa-fw");
     var newMessage = $('#message' + messageId).val();
 
     var url = 'chat\\default\\updatemessage';
@@ -104,15 +103,16 @@ $(document).on("click", "#saveButton", function () {
         success: function (html) {
             if (html == 'doneUpdate')
             {
+                $('#message' + messageId).prop("disabled", false);
+                $('#saveButton').prop("id", "editButton");
+                $("#editIcon" + messageId).removeClass("fa fa-save fa-fw").addClass("fa fa-pencil fa-fw");
 
+                isEditing = false;
             };
         },
         error: function (xhr, ajaxOptions, thrownError) {
         }
     });
-
-
-    stopUpdate = false;
 });
 
 $(document).on("click", "#refreshButton", function () {
@@ -133,3 +133,29 @@ $(document).on("click", "#refreshButton", function () {
         }
     });
 });
+
+
+
+function checkFindConrol()
+{
+    var seed = $("#findControl").val().toString();
+    if (seed != '')
+    {
+        isSearching = true;
+        var idaa = $("input.col-md-12");
+        for (var i = 0; i < idaa.length; i++) {
+            if ($(idaa[i]).val().toLowerCase().indexOf(seed) > -1)
+            {
+                $(idaa[i]).parent().parent().show();
+            }
+            else
+            {
+                $(idaa[i]).parent().parent().hide();
+            }
+        };
+    }
+    else
+    {
+        isSearching = false;
+    };
+};

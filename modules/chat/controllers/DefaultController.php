@@ -129,7 +129,6 @@ class DefaultController extends Controller
                 $model->isDelete = 0;
 
                 if ($model->save()) {
-                    //echo json_encode($model->getNewItem());
                     echo json_encode($model->conversation());
                 } else {
                     print_r($model->getErrors());
