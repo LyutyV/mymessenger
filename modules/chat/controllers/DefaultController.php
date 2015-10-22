@@ -64,6 +64,24 @@ class DefaultController extends Controller
         }
     }
 
+    public function actionUpdatemessage()
+    {
+        if (!empty($_POST))
+        {
+            if (isset($_POST['id']))
+                $messageId = $_POST['id'];
+            if (isset($_POST['newMessage']))
+                $newMessage = $_POST['newMessage'];
+            $model = Chat::findOne($messageId);
+            $model->message = $newMessage;
+            if ($model->save())
+            {
+                echo json_encode("doneUpdate");
+            }
+        }
+    }
+
+
     public function actionGetnewchat()
     {
         if (!empty($_POST))

@@ -80,7 +80,39 @@ $(document).on("click", "#deleteButton", function () {
 });
 
 $(document).on("click", "#editButton", function () {
-    var t = 0;
+    stopUpdate = true;
+    var messageId = $(this).data("id");
+    $('#message' + messageId).prop("disabled", false);
+    $('#editButton').prop("id", "saveButton");
+    $("#editIcon" + messageId).removeClass("fa fa-pencil fa-fw").addClass("fa fa-save fa-fw");
+});
+
+$(document).on("click", "#saveButton", function () {
+    var messageId = $(this).data("id");
+    $('#message' + messageId).prop("disabled", false);
+    $('#saveButton').prop("id", "editButton");
+    $("#editIcon" + messageId).removeClass("fa fa-save fa-fw").addClass("fa fa-pencil fa-fw");
+    var newMessage = $('#message' + messageId).val();
+
+    var url = 'chat\\default\\updatemessage';
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: 'json',
+        data: {id: messageId, newMessage: newMessage},
+        success: function (html) {
+            if (html == 'doneUpdate')
+            {
+
+            };
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+        }
+    });
+
+
+    stopUpdate = false;
 });
 
 $(document).on("click", "#refreshButton", function () {

@@ -106,11 +106,11 @@ class Chat extends \yii\db\ActiveRecord {
                 }
                 else
                 {
-                    $message = '<input class="col-md-12" type="text" disabled="disabled" value="' . $model->message . '">';
+                    $message = '<input class="col-md-12" type="text" id="message'. $model->id .'" disabled="true" value="' . $model->message . '">';
                     $isDisabledEditButton = '';
                     $isDisabledDeleteButton = '';
                 }
-//<input class="col-md-12" type="text" disabled="disabled" value="' . $message . '">
+
                 $output['chat'] .= '<div class="item">
                 <p class="message">
                     <a class="name" href="#">
@@ -120,7 +120,7 @@ class Chat extends \yii\db\ActiveRecord {
                     </a>
                     ' . $message . '
                     <div class="btn-group">
-                        <button type="button" class="btn btn-primary'.$isDisabledEditButton.'" id="editButton" data-id="'.$model->id.'"><i class="fa fa-pencil fa-fw"></i></button>
+                        <button type="button" class="btn btn-primary'.$isDisabledEditButton.'" id="editButton" data-id="'.$model->id.'"><i class="fa fa-pencil fa-fw" id="editIcon'.$model->id.'"></i></button>
                         <button type="button" class="btn btn-danger'.$isDisabledDeleteButton.'" id="deleteButton" data-id="'.$model->id.'"><i class="fa fa-trash-o fa-lg"></i></button>
                     </div>
                     <span class="fa-stack fa-lg' . $model->id . '">
