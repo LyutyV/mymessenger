@@ -3,6 +3,7 @@
 namespace app\modules\main\controllers;
  
 use yii\web\Controller;
+use Yii;
  
 class DefaultController extends Controller
 {
@@ -17,6 +18,12 @@ class DefaultController extends Controller
  
     public function actionIndex()
     {
-        return $this->render('index');
+        if (Yii::$app->user->isGuest) {
+            return $this->render('index');
+        }
+        else
+        {
+            $this->redirect('chat', false, 302);
+        }
     }
 }
