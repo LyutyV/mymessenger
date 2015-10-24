@@ -70,13 +70,12 @@ class Chat extends \yii\db\ActiveRecord {
     public function users() {
         $output = '';
         $allUsers = User::getAllUsers();
-
         if ($allUsers) {
             foreach ($allUsers as $userItem) {
-                if ($userItem->id == Yii::$app->user->id) continue;
                 $output['userList'] .= '<li>
                     <a href="#">' . $userItem->username . '</a>
                 </li>';
+                
             }
         }
         return $output;
@@ -100,7 +99,7 @@ class Chat extends \yii\db\ActiveRecord {
                     $isDeleted = '<span class="text-danger">Deleted</span>';
                     $isDisabledDeleteButton = '';
                 }
-                if (!$model->isRead && Yii::$app->user->id != $model->userId)
+                if (!$model->isRead)
                 {
                     $message = "<button type='button' class='btn btn-success' id='refreshButton' data-id='".$model->id."'><i class='fa fa-refresh fa-spin'></i> New message...</button>";
                     $isDisabledEditButton = ' disabled';
@@ -135,3 +134,22 @@ class Chat extends \yii\db\ActiveRecord {
         return $output;
     }
 }
+/*
+<p class="message">
+    <a class="name" href="#">
+        <small class="text-muted pull-right" style="color:green"><i class="fa fa-clock-o"></i> ' . \kartik\helpers\Enum::timeElapsed($model->updateDate) . '</small>
+        ' . $model->user->username . '
+    </br>
+    </a>
+    <input class="col-md-12" type="text" id="message'. $model->id .'" disabled="true" value="!!!!!!!!!!!!">
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary'.$isDisabledEditButton.'" id="editButton" data-id="'.$model->id.'"><i class="fa fa-pencil fa-fw" id="editIcon'.$model->id.'"></i></button>
+        <button type="button" class="btn btn-danger'.$isDisabledDeleteButton.'" id="deleteButton" data-id="'.$model->id.'"><i class="fa fa-trash-o fa-lg"></i></button>
+    </div>
+    <span class="fa-stack fa-lg' . $model->id . '">
+        <i class="fa fa-square-o fa-stack-2x"></i>
+        <i class="fa '. $isRead .' fa-stack-1x"></i>
+    </span>
+    '.$isDeleted.'
+</p>
+*/

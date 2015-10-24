@@ -20,24 +20,18 @@ class DefaultController extends Controller
  
     public function actionIndex()
     {
-        if (Yii::$app->user->isGuest) {
-            $this->redirect('index', false, 302);
-        }
-        else
-        {
-            $module = \Yii::$app->controller->module;
-            $model = new Chat();
-            $model->userModel = $module->userModel;
-            $model->userField = $module->userField;
-            $data = $model->users();
-            return $this->render('index', [
-                        'data' => $data,
-                        'url' => $module->url,
-                        'userModel' => $module->userModel,
-                        'userField' => $module->userField,
-                        'loading' => $module->loadingImage
-            ]);
-        }
+        $module = \Yii::$app->controller->module;
+        $model = new Chat();
+        $model->userModel = $module->userModel;
+        $model->userField = $module->userField;
+        $data = $model->users();
+        return $this->render('index', [
+                    'data' => $data,
+                    'url' => $module->url,
+                    'userModel' => $module->userModel,
+                    'userField' => $module->userField,
+                    'loading' => $module->loadingImage
+        ]);
     }
 
     public function actionDeletemessage()
