@@ -1,7 +1,7 @@
 var isEditing = isSearching = isUserChanging = false;
 
 function reloadchat(message, clearChat) {
-    if (!isEditing && !isSearching && !isUserChanging)
+    if (!isEditing && !isSearching && !isUserChanging && $(".box-title").text() != 'Chat')
     {
         var url = $(".btn-send-comment").data("url");
         var model = $(".btn-send-comment").data("model");
@@ -142,15 +142,15 @@ function checkFindConrol()
     if (seed != '')
     {
         isSearching = true;
-        var idaa = $("input.col-md-12");
-        for (var i = 0; i < idaa.length; i++) {
-            if ($(idaa[i]).val().toLowerCase().indexOf(seed) > -1)
+        var message = $("input.col-md-12");
+        for (var i = 0; i < message.length; i++) {
+            if ($(message[i]).val().toLowerCase().indexOf(seed) > -1)
             {
-                $(idaa[i]).parent().parent().show();
+                $(message[i]).parent().parent().show();
             }
             else
             {
-                $(idaa[i]).parent().parent().hide();
+                $(message[i]).parent().parent().hide();
             }
         };
     }

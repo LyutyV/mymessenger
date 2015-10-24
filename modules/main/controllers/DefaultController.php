@@ -19,13 +19,6 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         Yii::$app->user->logout();
-        if (Yii::$app->user->isGuest) {
-            return $this->render('index');
-        }
-        else
-        {
-            return $this->redirect('chat', false, 302);
-        }
-        
+        return $this->render('index');
     }
 }

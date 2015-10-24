@@ -29,8 +29,6 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'My Company',
-        'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
@@ -38,7 +36,6 @@ AppAsset::register($this);
     echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => array_filter([
-                ['label' => 'Home', 'url' => ['/main/default/index']],
                 ['label' => 'Contact', 'url' => ['/contact/default/index']],
                 Yii::$app->user->isGuest ?
                     ['label' => 'Sign Up', 'url' => ['/user/default/signup']] :
