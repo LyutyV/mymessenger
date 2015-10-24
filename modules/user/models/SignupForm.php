@@ -55,21 +55,13 @@ class SignupForm extends Model
             $user->generateAuthKey();
             $user->generateEmailConfirmToken();
  
-            // if ($user->save()) {
-            //     Yii::$app->mailer->compose('emailConfirm', ['user' => $user])
-            //         ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
-            //         ->setTo($this->email)
-            //         ->setSubject('Email confirmation for ' . Yii::$app->name)
-            //         ->send();
-            // }
             if ($user->save()) {
                 Yii::$app->mailer->compose('emailConfirm', ['user' => $user])
-                    ->setFrom('lvg.zp.ua@gmail.com')
-                    ->setTo('lyuty@ukr.net')
+                    ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
+                    ->setTo($this->email)
                     ->setSubject('Email confirmation for ' . Yii::$app->name)
                     ->send();
             }
- 
             return $user;
         }
  

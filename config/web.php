@@ -37,6 +37,13 @@ $config = [
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
         ],
+        'assetManager' => [
+            'linkAssets' => true,
+            'basePath' => '@webroot/assets',
+            'baseUrl' => '@web/assets',
+            'bundles' => [
+            ],
+        ],
     ],
 ];
  
