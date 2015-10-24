@@ -18,8 +18,8 @@ $config = [
         ],
         'chat' => [
             'class' => 'app\modules\chat\Module',
-            'url' => 'chat\default\sendchat',//'modules\chat\default\send-chat',
-            'userField' => 'avatarImage',
+            'url' => 'chat\default\sendchat',
+            //'userField' => 'avatarImage',
         ],
     ],
     'defaultRoute' => 'main/default/index',
