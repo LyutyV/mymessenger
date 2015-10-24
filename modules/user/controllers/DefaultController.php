@@ -62,8 +62,7 @@ class DefaultController extends Controller
  
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            //return $this->goBack();
-            $this->redirect('chat', false, 302);
+            return $this->redirect('chat', false, 302);
         } else {
             return $this->render('login', [
                 'model' => $model,
@@ -74,8 +73,7 @@ class DefaultController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-        
-        return $this->goHome();
+        return $this->redirect('main', false, 302);
     }
  
     public function actionSignup()

@@ -19,7 +19,6 @@ $config = [
         'chat' => [
             'class' => 'app\modules\chat\Module',
             'url' => 'chat\default\sendchat',
-            //'userField' => 'avatarImage',
         ],
     ],
     'defaultRoute' => 'main/default/index',
